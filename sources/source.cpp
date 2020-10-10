@@ -19,20 +19,7 @@ map<string, set<path>> read_contents(const path& dir_path) {
           }
         }
       }
-    } /*else if (is_symlink(entry)){
-      path link_path = read_symlink(entry);
-      for (directory_entry& link_entry : directory_iterator(link_path)){
-        if (is_regular_file(link_entry)) {
-          string filename = link_entry.path().filename().string();
-
-          if (std::regex_match(filename.begin(), filename.end(),
-                               filename_pattern)) {
-            content[entry.path().filename().string()].push_back(
-                link_entry.path());
-          }
-        }
-      }
-    }*/
+    } // symlink comment was here
   }
   return content;
 }
