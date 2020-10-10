@@ -53,6 +53,8 @@ target_include_directories(tests
 target_include_directories(app
         PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
         )
+
+target_link_libraries(template Boost::filesystem)
 # TODO: change template word to project name and delete this comment
 target_link_libraries(tests GTest::main Boost::filesystem template)
 
