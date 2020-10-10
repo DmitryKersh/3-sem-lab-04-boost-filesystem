@@ -2,8 +2,8 @@
 
 #include <header.hpp>
 
-map<string, vector<path>> read_contents(const path& dir_path) {
-  map<string, vector<path>> content;
+map<string, set<path>> read_contents(const path& dir_path) {
+  map<string, set<path>> content;
   directory_iterator iter(dir_path);
 
   for (directory_entry& entry : iter) {
@@ -14,8 +14,8 @@ map<string, vector<path>> read_contents(const path& dir_path) {
 
           if (std::regex_match(filename.begin(), filename.end(),
                                filename_pattern)) {
-            content[entry.path().filename().string()].push_back(
-                inner_entry.path());
+            content[entry.path().filename().string()].insert(
+                inner_entry.path().filename());
           }
         }
       }
@@ -37,11 +37,11 @@ map<string, vector<path>> read_contents(const path& dir_path) {
   return content;
 }
 
-void print_contents(const map<string, vector<path>>& content, ostream& os) {
- /* os << "_________________\n"
-        "| C O N T E N T |\n"
-        "|_______________|"
-     << std::endl;*/
+void print_contents(const map<string, set<path>>& content, ostream& os) {
+  /* os << "_________________\n"
+         "| C O N T E N T |\n"
+         "|_______________|"
+      << std::endl;*/
   for (const auto& item : content) {
     for (const path& p : item.second) {
       os << item.first << " " << p.filename().string() << std::endl;
@@ -50,7 +50,7 @@ void print_contents(const map<string, vector<path>>& content, ostream& os) {
 }
 
 size_t get_date(const path& p) {
-  //regex filename_pattern("balance_\\d{8}_\\d{8}\\.txt");
+  // regex filename_pattern("balance_\\d{8}_\\d{8}\\.txt");
 
   std::string s = p.string();
   if (!std::regex_match(s.begin(), s.end(), filename_pattern)) {
@@ -62,7 +62,7 @@ size_t get_date(const path& p) {
 }
 
 size_t get_account(const path& p) {
-  //regex filename_pattern("balance_\\d{8}_\\d{8}\\.txt");
+  // regex filename_pattern("balance_\\d{8}_\\d{8}\\.txt");
 
   std::string s = p.string();
   if (!std::regex_match(s.begin(), s.end(), filename_pattern)) {
@@ -81,7 +81,7 @@ bool operator<(const account_key& lhs, const account_key& rhs) {
 }
 
 map<account_key, account_info> make_infos(
-    const map<string, vector<path>>& content) {
+    const map<string, set<path>>& content) {
   map<account_key, account_info> res;
   for (const auto& item : content) {
     for (const auto& file : item.second) {
@@ -108,4 +108,13 @@ void print_infos(const map<account_key, account_info>& infos, ostream& os) {
        << " files:" << item.second.number_of_files
        << " last date:" << item.second.last_date << std::endl;
   }
+}
+
+bool operator==(const account_key& lhs, const account_key& rhs) {
+  return lhs.account == rhs.account && lhs.broker == rhs.broker;
+}
+
+bool operator==(const account_info& lhs, const account_info& rhs) {
+  return lhs.number_of_files == rhs.number_of_files &&
+         lhs.last_date == rhs.last_date;
 }

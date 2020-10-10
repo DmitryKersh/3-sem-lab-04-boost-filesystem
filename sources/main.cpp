@@ -11,7 +11,7 @@ int main(int argc, char** argv){
     path_to_ftp = "./";
   }
 
-  map<string, vector<path>> content = read_contents(path_to_ftp);
+  map<string, set<path>> content = read_contents(path_to_ftp);
 
   print_contents(content, std::cout);
 
