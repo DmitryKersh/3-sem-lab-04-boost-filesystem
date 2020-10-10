@@ -19,16 +19,29 @@ map<string, vector<path>> read_contents(const path& dir_path) {
           }
         }
       }
-    }
+    } /*else if (is_symlink(entry)){
+      path link_path = read_symlink(entry);
+      for (directory_entry& link_entry : directory_iterator(link_path)){
+        if (is_regular_file(link_entry)) {
+          string filename = link_entry.path().filename().string();
+
+          if (std::regex_match(filename.begin(), filename.end(),
+                               filename_pattern)) {
+            content[entry.path().filename().string()].push_back(
+                link_entry.path());
+          }
+        }
+      }
+    }*/
   }
   return content;
 }
 
 void print_contents(const map<string, vector<path>>& content, ostream& os) {
-  os << "_________________\n"
+ /* os << "_________________\n"
         "| C O N T E N T |\n"
         "|_______________|"
-     << std::endl;
+     << std::endl;*/
   for (const auto& item : content) {
     for (const path& p : item.second) {
       os << item.first << " " << p.filename().string() << std::endl;
@@ -85,10 +98,10 @@ map<account_key, account_info> make_infos(
 }
 
 void print_infos(const map<account_key, account_info>& infos, ostream& os) {
-  os << "_________________\n"
+  /*os << "_________________\n"
         "|    I N F O    |\n"
         "|_______________|"
-     << std::endl;
+     << std::endl;*/
   for (const auto& item : infos) {
     os << "broker:" << item.first.broker << " account:" << std::setw(8)
        << std::setfill('0') << item.first.account

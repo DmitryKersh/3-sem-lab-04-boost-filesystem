@@ -8,6 +8,10 @@
 using boost::filesystem::path;
 using boost::filesystem::directory_iterator;
 using boost::filesystem::directory_entry;
+using boost::filesystem::is_directory;
+using boost::filesystem::is_regular_file;
+using boost::filesystem::is_symlink;
+using boost::filesystem::read_symlink;
 
 #include <iomanip>
 #include <iostream>
