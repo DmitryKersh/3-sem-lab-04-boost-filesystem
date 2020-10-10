@@ -8,7 +8,8 @@ TEST(GetDate, MinorFunctions) {
   EXPECT_THROW(get_date(path("Balance_00000000_00000000.txt")), runtime_error);
   EXPECT_THROW(get_date(path("balance_002130_00000000.txt")), runtime_error);
   EXPECT_THROW(get_date(path("balance_00OOO000_00000000.txt")), runtime_error);
-  EXPECT_THROW(get_date(path("balance_00000000_00000000.old.txt")), runtime_error);
+  EXPECT_THROW(get_date(path("balance_00000000_00000000.old.txt")),
+               runtime_error);
 
   EXPECT_EQ(get_date(path("balance_00321200_00332220.txt")), 332220);
   EXPECT_EQ(get_date(path("balance_00321200_12345678.txt")), 12345678);
@@ -19,7 +20,8 @@ TEST(GetAccount, MinorFunctions) {
   EXPECT_THROW(get_date(path("Balance_00000000_00000000.txt")), runtime_error);
   EXPECT_THROW(get_date(path("balance_00213023_02220.txt")), runtime_error);
   EXPECT_THROW(get_date(path("balance_00OOO000_00000000.txt")), runtime_error);
-  EXPECT_THROW(get_date(path("balance_00000000_00123400.old.txt")), runtime_error);
+  EXPECT_THROW(get_date(path("balance_00000000_00123400.old.txt")),
+               runtime_error);
 
   EXPECT_EQ(get_account(path("balance_00000001_00000000.txt")), 1);
   EXPECT_EQ(get_account(path("balance_00321200_02332220.txt")), 321200);
@@ -52,18 +54,17 @@ TEST(Operators, MinorFunctions) {
   EXPECT_FALSE(ai1 == ai2);
 }
 
-TEST(AllInOne, MajorFunctions){
-  map<string, set<path>> test_map_expected = { // not sorted there
-      {"broker1", {"balance_03934523_20180927.txt",
-                         "balance_03934520_20181004.txt",
-                         "balance_03934520_20180928.txt"}},
-      {"broker2", {"balance_00100002_20180904.txt",
-                         "balance_00100002_20180905.txt"}},
-      {"broker3", {"balance_00100002_20181003.txt",
-                         "balance_00100001_20180917.txt",
-                         "balance_00100003_20180918.txt",
-                         "balance_00100003_20180913.txt"}}
-  };
+TEST(AllInOne, MajorFunctions) {
+  map<string, set<path>> test_map_expected = {
+      // not sorted there
+      {"broker1",
+       {"balance_03934523_20180927.txt", "balance_03934520_20181004.txt",
+        "balance_03934520_20180928.txt"}},
+      {"broker2",
+       {"balance_00100002_20180904.txt", "balance_00100002_20180905.txt"}},
+      {"broker3",
+       {"balance_00100002_20181003.txt", "balance_00100001_20180917.txt",
+        "balance_00100003_20180918.txt", "balance_00100003_20180913.txt"}}};
 
   map<string, set<path>> test_map_got = read_contents("./../ftp");
 
@@ -78,21 +79,19 @@ TEST(AllInOne, MajorFunctions){
       "broker3 balance_00100001_20180917.txt\n"
       "broker3 balance_00100002_20181003.txt\n"
       "broker3 balance_00100003_20180913.txt\n"
-      "broker3 balance_00100003_20180918.txt\n"
-      );
+      "broker3 balance_00100003_20180918.txt\n");
 
   ostringstream got_contents;
   print_contents(test_map_expected, got_contents);
   EXPECT_EQ(got_contents.str(), expected.str());
 
   map<account_key, account_info> test_infos = {
-      {{"broker1", 3934520},{2, 20181004}},
-      {{"broker1", 3934523},{1, 20180927}},
-      {{"broker2", 100002},{2, 20180905}},
-      {{"broker3", 100001},{1, 20180917}},
-      {{"broker3", 100002},{1, 20181003}},
-      {{"broker3", 100003},{2, 20180918}}
-  };
+      {{"broker1", 3934520}, {2, 20181004}},
+      {{"broker1", 3934523}, {1, 20180927}},
+      {{"broker2", 100002}, {2, 20180905}},
+      {{"broker3", 100001}, {1, 20180917}},
+      {{"broker3", 100002}, {1, 20181003}},
+      {{"broker3", 100003}, {2, 20180918}}};
 
   EXPECT_EQ(make_infos(test_map_expected), test_infos);
 
@@ -108,8 +107,4 @@ TEST(AllInOne, MajorFunctions){
   print_infos(test_infos, got_infos);
 
   EXPECT_EQ(got_infos.str(), expected_infos.str());
-}
-
-TEST(ReadContents, MajorFunctions){
-
 }
