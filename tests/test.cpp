@@ -17,9 +17,12 @@ TEST(GetDate, MinorFunctions) {
 }
 
 TEST(GetAccount, MinorFunctions) {
-  EXPECT_THROW(get_account(path("Balance_00000000_00000000.txt")), runtime_error);
-  EXPECT_THROW(get_account(path("balance_00213023_02220.txt")), runtime_error);
-  EXPECT_THROW(get_account(path("balance_00OOO000_00000000.txt")), runtime_error);
+  EXPECT_THROW(get_account(path("Balance_00000000_00000000.txt")),
+               runtime_error);
+  EXPECT_THROW(get_account(path("balance_00213023_02220.txt")),
+               runtime_error);
+  EXPECT_THROW(get_account(path("balance_00OOO000_00000000.txt")),
+               runtime_error);
   EXPECT_THROW(get_account(path("balance_00000000_00123400.old.txt")),
                runtime_error);
 
@@ -66,9 +69,9 @@ TEST(AllInOne, MajorFunctions) {
        {"balance_00100002_20181003.txt", "balance_00100001_20180917.txt",
         "balance_00100003_20180918.txt", "balance_00100003_20180913.txt"}}};
 
-  //map<string, set<path>> test_map_got = read_contents("./../ftp");
+  // map<string, set<path>> test_map_got = read_contents("./../ftp");
 
-  //EXPECT_EQ(test_map_expected, test_map_got);
+  // EXPECT_EQ(test_map_expected, test_map_got);
 
   ostringstream expected(
       "broker1 balance_03934520_20180928.txt\n"
